@@ -41,8 +41,11 @@
     var code = Number(((((((date)+3113)-5125)*(((date)+3113)/5125)*0.618)+((date)+3113))-3113));
     var year = Math.trunc(code);
     var month =  Math.trunc((code - year)/0.01);
-    var date =  (Math.trunc((code - year)/0.01)).toString();
-    date = parseInt(date.slice(-1));
+    var date =  (Math.trunc((code - year)/0.001)).toString();
+    date = parseInt(date.slice(1));
+	if (date > 30){
+	date = parseInt(date.slice(1, -1));
+	}
 
     if (month > 12) {
     month = month.toString();
