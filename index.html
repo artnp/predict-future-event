@@ -14,7 +14,7 @@
     <center>
         <img src="https://i.pinimg.com/236x/53/66/38/5366388705526cd57af65e04abbd7ab5.jpg"/>
 <br><br><br>
-    <input type=text id='input' size='6' style='height:50;width:150;font-size:30;' placeholder="ปี.เดือนวัน">
+    <input type=text id='input' size='6' style='height:50;width:150;font-size:30;' placeholder='ปี.เดือนวัน'>
     <br>
     <input type=button value='ทำนายวันเชื่อมโยง'  onClick="result();" style='height:30;width:150;font-size:17;'>
     <br> <font size="2">ปี(คศ).เดือนวัน | ex: 2022.0222</font>
@@ -37,10 +37,10 @@
     var code = Number(((((((date)+3113)-5125)*(((date)+3113)/5125)*0.618)+((date)+3113))-3113));
     var year = Math.trunc(code);
     var month =  Math.trunc((code - year)/0.01);
-    var date =  (Math.trunc((code - year)/0.001)).toString();
-    date = parseInt(date.slice(1));
-	if (date > 28){
-	date = parseInt(date.slice(1, -1));
+    var day =  (Math.trunc((code - year)/0.001)).toString();
+    day1 = parseInt(day.slice(1));
+	if (day1 > 28){
+    day1 = parseInt(day.slice(1, -1));
 	}
 
     if (month > 12) {
@@ -51,10 +51,10 @@
     function monthName(mon) {
    return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][mon - 1];
     }
-    var google = ("https://www.google.com/search?q=What+happened+on+" + year + ", " + monthName(month))+' ' + date;
+    var google = ("https://www.google.com/search?q=What+happened+on+" + year + ", " + monthName(month))+' ' + day1;
     document.getElementById("link").setAttribute("href",google);
     document.getElementById('output').innerHTML=code;
-    document.getElementById('predict').innerHTML= year + ', ' + monthName(month) + ' ' + date;
+    document.getElementById('predict').innerHTML= year + ', ' + monthName(month) + ' ' + day1;
     }
     document.querySelector(".support").addEventListener("click", function() {
   Swal.fire({
