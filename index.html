@@ -3,6 +3,30 @@
     <title>พยากรณ์เหตุการณ์ล่วงหน้า</title>
     
     <style>
+	          .black-box {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  .flashing-bar {
+    width: 10px;
+    height: 15px;
+    background-color: white;
+	position: absolute;
+    animation: flashing 1.5s infinite;
+  }
+
+  @keyframes flashing {
+    0%, 49% {
+      opacity: 0;
+    }
+    50%, 100% {
+      opacity: 1;
+    }
+  }
  a { text-decoration: none; }
  #predict{
      background-color: rgb(197, 197, 197);
@@ -10,6 +34,9 @@
     </style>
     </head>
     <body>
+	    <div class="black-box"><center>
+<div class="flashing-bar"></div> &nbsp;&nbsp; <i>กรอกบันทึกค่า {ปี. เดือน วัน} เหตุการณ์สำคัญ</i><br>
+</center></div>
     <center>
         <img src="https://i.pinimg.com/236x/53/66/38/5366388705526cd57af65e04abbd7ab5.jpg"/>
 <br><br><br>
