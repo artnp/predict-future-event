@@ -218,7 +218,9 @@
         function searchEventInfo(id) {
             let eventName = document.getElementById(id).value;
             if (!eventName) return alert("กรุณาระบุชื่อเหตุการณ์ที่ต้องการค้นหา");
-            let prompt = `จงบอกปีค.ศ./เดือน เหตุการณ์${eventName} **ตอบแต่ตัวเลขเท่านั้น`;
+            let prompt = (id === 'm2EventName')
+                ? `จงบอกปีค.ศ. เหตุการณ์${eventName} **ตอบแต่ตัวเลขเท่านั้น`
+                : `จงบอกปีค.ศ./เดือน เหตุการณ์${eventName} **ตอบแต่ตัวเลขเท่านั้น`;
             openGptPopup(prompt);
         }
 
