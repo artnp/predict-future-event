@@ -37,6 +37,27 @@
             color: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .round-item {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
     </style>
 </head>
 
@@ -341,6 +362,12 @@
         }
 
         // 🔴 การคำนวณ Mode 3: วัฏจักรชีวิตส่วนตัว
+        let mode3State = {
+            birth: 0,
+            ageAtEvent: 0,
+            currentIteration: 1
+        };
+
         function calcMode3() {
             let birth = parseInt(document.getElementById('m3Birth').value);
             let seed = parseInt(document.getElementById('m3Seed').value);
@@ -351,6 +378,11 @@
 
             let ageAtEvent = seed - birth;
 
+            // เก็บสถานะสำหรับการคำนวณรอบถัดไป
+            mode3State.birth = birth;
+            mode3State.ageAtEvent = ageAtEvent;
+            mode3State.currentIteration = 1;
+
             // คำนวณรอบอดีต (จุดเริ่มของวงรอบ)
             let pastAge = Math.round(ageAtEvent * 0.618);
             let pastYear = birth + pastAge;
@@ -359,20 +391,47 @@
             let nextAge = Math.round(ageAtEvent * 1.618);
             let nextYear = birth + nextAge;
 
-            let promptPast = `วิธีรับมือและเข้าใจความรู้สึก ${eventName} ที่เคยเกิดขึ้นตอนอายุ ${pastAge}`;
-            let promptNext = `วิธีเตรียมตัวรับมือกับวัฏจักร ${eventName} ที่กำลังจะเวียนกลับมาตอนอายุ ${nextAge}`;
-
             let htmlValue = `
                 <div class="text-sm text-gray-300 font-normal mb-1 mt-2">รอบอดีต (จุดเริ่มของสภาวะนี้):</div>
                 <div class="text-2xl font-bold text-blue-300 mb-4">⏳ ปี ค.ศ. ${pastYear} (อายุ ${pastAge} ปี)</div>
                 
                 <div class="w-full h-px bg-white/20 my-4"></div>
 
-                <div class="text-sm text-gray-300 font-normal mb-1">รอบอนาคต (เมื่อวัฏจักรเวียนกลับมา):</div>
-                <div class="text-2xl font-bold text-teal-300">✨ ปี ค.ศ. ${nextYear} (อายุ ${nextAge} ปี)</div>
+                <div id="m3FutureContainer">
+                    <div class="round-item mb-4">
+                        <div class="text-sm text-gray-300 font-normal mb-1">รอบอนาคตที่ 1 (เมื่อวัฏจักรเวียนกลับมา):</div>
+                        <div class="text-2xl font-bold text-teal-400">✨ ปี ค.ศ. ${nextYear} (อายุ ${nextAge} ปี)</div>
+                    </div>
+                </div>
+
+                <button onclick="addMode3Round()" class="w-full mt-2 bg-teal-500/20 hover:bg-teal-500/40 border border-teal-400/30 text-teal-200 rounded-xl py-3 px-4 flex items-center justify-center gap-2 transition-all duration-300 group">
+                    <span class="text-xl group-hover:scale-125 transition-transform">+</span>
+                    <span>คำนวณรอบถัดไป</span>
+                </button>
             `;
 
             showResult("ประเมินวัฏจักรชีวิต (Mode 3):", htmlValue);
+        }
+
+        function addMode3Round() {
+            mode3State.currentIteration++;
+
+            // สูตร Fractal: SeedAge * (1.618 ^ iteration)
+            let nextAge = Math.round(mode3State.ageAtEvent * Math.pow(1.618, mode3State.currentIteration));
+            let nextYear = mode3State.birth + nextAge;
+
+            const container = document.getElementById('m3FutureContainer');
+            const newRound = document.createElement('div');
+            newRound.className = "round-item mb-4 pt-4 border-t border-white/10";
+            newRound.innerHTML = `
+                <div class="text-sm text-gray-300 font-normal mb-1">รอบอนาคตที่ ${mode3State.currentIteration}:</div>
+                <div class="text-2xl font-bold text-teal-300">✨ ปี ค.ศ. ${nextYear} (อายุ ${nextAge} ปี)</div>
+            `;
+            container.appendChild(newRound);
+
+            // Scroll to bottom of result box if it grows
+            const resultBox = document.getElementById('resultBox');
+            resultBox.scrollTop = resultBox.scrollHeight;
         }
     </script>
     <!-- ปุ่ม Donate มุมขวาล่าง -->
